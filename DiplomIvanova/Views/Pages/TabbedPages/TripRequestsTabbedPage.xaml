@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:DiplomIvanova.Views.Pages.TripRequestPages"
+             x:Class="DiplomIvanova.Views.Pages.TripRequestPages.TripRequestsTabbedPage"
+             Title="TripRequestsPage">
+    <local:TripRequestsPage Title="Сформированные"/>
+    <local:TripRequestsPage Title="В процессе"/>
+    <local:TripRequestsPage Title="Завершенные"/>
+</TabbedPage>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
+			 xmlns:entities="clr-namespace:DiplomIvanova.DataBase.Entities"
+             x:Class="DiplomIvanova.Views.Pages.RoutePage" 
+			 xmlns:map="clr-namespace:Syncfusion.Maui.Maps;assembly=Syncfusion.Maui.Maps" 
+			 Title="Построить новый маршрут">
+	<Grid RowSpacing="10">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="0.3*" />
+			<ColumnDefinition Width="0.7*" />
+		</Grid.ColumnDefinitions>
+		<VerticalStackLayout HorizontalOptions="CenterAndExpand" Spacing="10">
+			<VerticalStackLayout Spacing="30">
+				<Label Text="Выберите пункты:" />
+				<CollectionView ItemsSource="{Binding PickUpPoints}">
+					<CollectionView.ItemTemplate>
+						<DataTemplate>
+							<HorizontalStackLayout x:DataType="entities:PickUpPointEntity">
+								<CheckBox CheckedChanged="CheckBox_CheckedChanged" />
+								<Label Text="{Binding Name}" />
+							</HorizontalStackLayout>
+						</DataTemplate>
+					</CollectionView.ItemTemplate>
+				</CollectionView>
+			</VerticalStackLayout>
+			<CollectionView HeightRequest="600" ItemsSource="{Binding PickUpPoints}">
+				<CollectionView.ItemTemplate>
+					<DataTemplate>
+						<HorizontalStackLayout x:DataType="entities:PickUpPointEntity">
+							<CheckBox CheckedChanged="CheckBox_CheckedChanged"/>
+							<Label Text="{Binding Name}" />
+						</HorizontalStackLayout>
+					</DataTemplate>
+				</CollectionView.ItemTemplate>
+			</CollectionView>
+			<HorizontalStackLayout Spacing="30">
+				<Label Text="Водитель:" />
+				<Picker ItemsSource="{Binding Drivers}" WidthRequest="300" ItemDisplayBinding="{Binding Name}" SelectedIndexChanged="Picker_SelectedIndexChanged" />
+			</HorizontalStackLayout>
+			<HorizontalStackLayout Spacing="10">
+				<Label Text="Автомобиль:" />
+				<Picker ItemsSource="{Binding Cars}" WidthRequest="300" ItemDisplayBinding="{Binding Name}" SelectedIndexChanged="Picker_SelectedIndexChanged_1" />
+			</HorizontalStackLayout>
+		</VerticalStackLayout>
+		<map:SfMaps Grid.Column="1" MinimumWidthRequest="100" MinimumHeightRequest="500" x:Name="routeMap">
+			<map:SfMaps.Layer>
+				<map:MapShapeLayer ShapesSource="https://cdn.syncfusion.com/maps/map-data/world-map.json" />
+			</map:SfMaps.Layer>
+		</map:SfMaps>
+	</Grid>
+</ContentPage>

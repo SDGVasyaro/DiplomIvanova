@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DiplomIvanova.Views.Pages.TripRequestPages.TripRequestsPage" 
+             xmlns:ent="clr-namespace:DiplomIvanova.DataBase.Entities"
+             Title="NewPage1">
+    <VerticalStackLayout>
+		<RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
+        <CollectionView ItemsSource="{Binding Items}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout x:DataType="ent:TripRequestEntity">
+						<VerticalStackLayout.GestureRecognizers>
+							<!--<TapGestureRecognizer Command="{Binding ItemTappedCommand}" />-->
+						</VerticalStackLayout.GestureRecognizers>
+						<Label Text="{Binding Id}" Style="{StaticResource SubHeadline}" />
+						<Label Text="{Binding Client.Name}" Style="{StaticResource Headline}" />
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+		</RefreshView>
+	</VerticalStackLayout>
+</ContentPage>
