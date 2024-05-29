@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Maui.Maps;
 using DiplomIvanova.DataBase.Context;
 using DiplomIvanova.DataBase.Entities;
+using Esri.ArcGISRuntime;
+using Esri.ArcGISRuntime.Maui;
 using Microsoft.Extensions.Logging;
 using Syncfusion.Maui.Core.Hosting;
 
@@ -15,6 +17,7 @@ namespace DiplomIvanova
             builder
                 .UseMauiApp<App>()
                 .ConfigureSyncfusionCore()
+                .UseArcGISRuntime(x=>x.UseApiKey("AAPK283232b584dd43af8134a1904f5c4e93NNfvzDYJJXH2yLEInk5GQSfbVJX3T-QiOnGlcO1PuMN3qSRgR-phBwnw15yUZOPh"))
                 .UseMauiCommunityToolkitMaps("u7EGInfKGuIz5RygcVVH~Z56wGuow2DopibKxwXC6Mg~AgA16K0pMysGzoPNo4co02s9iYElmAQ7727E5EMHsmcw4jVnfkSqIXGZENZEbWk_")
                 .ConfigureEssentials()
                 .ConfigureFonts(fonts =>

@@ -5,7 +5,8 @@
 			 xmlns:entities="clr-namespace:DiplomIvanova.DataBase.Entities"
              x:Class="DiplomIvanova.Views.Pages.RoutePage" 
 			 xmlns:map="clr-namespace:Syncfusion.Maui.Maps;assembly=Syncfusion.Maui.Maps" 
-			 Title="Построить новый маршрут">
+			 Title="Построить новый маршрут" 
+			 xmlns:esri="http://schemas.esri.com/arcgis/runtime/2013">
 	<Grid RowSpacing="10">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="0.3*" />
@@ -44,10 +45,6 @@
 				<Picker ItemsSource="{Binding Cars}" WidthRequest="300" ItemDisplayBinding="{Binding Name}" SelectedIndexChanged="Picker_SelectedIndexChanged_1" />
 			</HorizontalStackLayout>
 		</VerticalStackLayout>
-		<map:SfMaps Grid.Column="1" MinimumWidthRequest="100" MinimumHeightRequest="500" x:Name="routeMap">
-			<map:SfMaps.Layer>
-				<map:MapShapeLayer ShapesSource="https://cdn.syncfusion.com/maps/map-data/world-map.json" />
-			</map:SfMaps.Layer>
-		</map:SfMaps>
+		<esri:MapView Grid.Column="1" Map="{Binding Map}" GraphicsOverlays="{Binding GraphicsOverlays}" GeoViewTapped="routeMap_GeoViewTapped" MinimumWidthRequest="100" MinimumHeightRequest="500" x:Name="routeMap" />
 	</Grid>
 </ContentPage>
