@@ -38,12 +38,13 @@
 			</CollectionView>
 			<HorizontalStackLayout Spacing="30">
 				<Label Text="Водитель:" />
-				<Picker ItemsSource="{Binding Drivers}" WidthRequest="300" ItemDisplayBinding="{Binding Name}" SelectedIndexChanged="Picker_SelectedIndexChanged" />
+				<Picker ItemsSource="{Binding Drivers}" SelectedItem="{Binding Driver, Mode=TwoWay}" WidthRequest="300" ItemDisplayBinding="{Binding Name}" SelectedIndexChanged="Picker_SelectedIndexChanged" />
 			</HorizontalStackLayout>
 			<HorizontalStackLayout Spacing="10">
 				<Label Text="Автомобиль:" />
-				<Picker ItemsSource="{Binding Cars}" WidthRequest="300" ItemDisplayBinding="{Binding Name}" SelectedIndexChanged="Picker_SelectedIndexChanged_1" />
+				<Picker ItemsSource="{Binding Cars}" SelectedItem="{Binding Driver, Mode=TwoWay}" WidthRequest="300" ItemDisplayBinding="{Binding Name}" SelectedIndexChanged="Picker_SelectedIndexChanged_1" />
 			</HorizontalStackLayout>
+			<Button Text="Добавить" Command="{Binding SaveCommand}"/>
 		</VerticalStackLayout>
 		<esri:MapView Grid.Column="1" Map="{Binding Map}" GraphicsOverlays="{Binding GraphicsOverlays}" GeoViewTapped="routeMap_GeoViewTapped" MinimumWidthRequest="100" MinimumHeightRequest="500" x:Name="routeMap" />
 	</Grid>

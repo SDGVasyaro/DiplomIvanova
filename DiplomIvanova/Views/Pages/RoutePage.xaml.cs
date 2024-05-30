@@ -15,10 +15,9 @@ public partial class RoutePage : ContentPage
 {
 
     private readonly TripRequestVM _viewModel;
-    private readonly List<MapPoint> pins;
+    
 	public RoutePage()
 	{
-        pins = [];
 		InitializeComponent();
         BindingContext = _viewModel = new();
 	}
@@ -26,25 +25,6 @@ public partial class RoutePage : ContentPage
     protected override async void OnAppearing()
     {
         await _viewModel.ExecuteLoadItemsAsync();
-    }
-
-    private void routeMap_MapClicked(object sender, Microsoft.Maui.Controls.Maps.MapClickedEventArgs e)
-    {
-        var pin = new Pin()
-        {
-            Location = new(e.Location.Latitude, e.Location.Longitude),
-            Label = string.Empty,
-        };
-        //pin.MarkerClicked += Pin_MarkerClicked;
-
-        //routeMap.Pins.Add(pin);
-        
-
-    }
-
-    private void Pin_MarkerClicked(object? sender, PinClickedEventArgs e)
-    {
-        //routeMap.Pins.Remove((Pin)sender!);
     }
 
     private void Picker_SelectedIndexChanged(object sender, EventArgs e)
@@ -66,7 +46,7 @@ public partial class RoutePage : ContentPage
     {
         var dumeBeachPoint = e.Location;
         var sda = e.Position;
-        pins.Add(dumeBeachPoint!);
+        _viewModel.Pins.Add(dumeBeachPoint!);
         
 
         var pointSymbol = new SimpleMarkerSymbol
@@ -86,7 +66,7 @@ public partial class RoutePage : ContentPage
 
         // Add the point graphic to graphics overlay.
         _viewModel.GraphicsOverlays![0].Graphics.Add(pointGraphic);
-        if (pins.Count >= 2)
+        if (_viewModel.Pins.Count >= 2)
         {
             DrawRoute();
         }
@@ -100,7 +80,7 @@ public partial class RoutePage : ContentPage
             "https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World"));
         RouteParameters routeParams = await routeTask.CreateDefaultParametersAsync();
         // Установка исходной и конечной точек
-        var stops = pins.Count == 2 ? pins.Select(x => new Stop(x)) : SolveTravellingSalesmanProblem(pins).Select(x => new Stop(x));
+        var stops = _viewModel.Pins.Count == 2 ? _viewModel.Pins.Select(x => new Stop(x)) : SolveTravellingSalesmanProblem(_viewModel.Pins).Select(x => new Stop(x));
         routeParams.SetStops(stops);
         RouteResult routeResult = await routeTask.SolveRouteAsync(routeParams);
 
