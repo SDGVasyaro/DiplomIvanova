@@ -4,7 +4,7 @@ using DiplomIvanova.Views.Pages.ItemsViewPages;
 
 namespace DiplomIvanova.ViewModels.MainPage
 {
-    public class MainPageVM:BaseViewModel
+    public class MainPageVM:MapVM
     {
         #region commands
         public Command<string> GoToCommand => new(async (type) => await Shell.Current.GoToAsync($"{nameof(ItemsViewPage)}?{nameof(ItemsViewPage.ItemsType)}={type}"));

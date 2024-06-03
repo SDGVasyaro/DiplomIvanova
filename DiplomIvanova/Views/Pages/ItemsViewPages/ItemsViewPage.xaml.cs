@@ -25,10 +25,6 @@ public partial class ItemsViewPage : ContentPage
                 BindingContext = new EntityItemsVM<CarEntity>();
                 ItemsCollectionView.ItemTemplate = CollectionViewTemplates.CarsDataTemplate;
                 break;
-            case "ClientEntity":
-                BindingContext = new EntityItemsVM<ClientEntity>();
-                ItemsCollectionView.ItemTemplate = CollectionViewTemplates.ClientsDataTemplate;
-                break;
             case "DriverEntity":
                 BindingContext = new EntityItemsVM<DriverEntity>();
                 ItemsCollectionView.ItemTemplate = CollectionViewTemplates.DriversDataTemplate;
@@ -37,17 +33,9 @@ public partial class ItemsViewPage : ContentPage
                 BindingContext = new EntityItemsVM<PickUpPointEntity>();
                 ItemsCollectionView.ItemTemplate = CollectionViewTemplates.PickUpPointDataTemplate;
                 break;
-            case "ProductEntity":
-                BindingContext = new EntityItemsVM<ProductEntity>();
-                ItemsCollectionView.ItemTemplate = CollectionViewTemplates.ProductsDataTemplate;
-                break;
             case "RouteEntity":
                 BindingContext = new EntityItemsVM<RouteEntity>();
-                ItemsCollectionView.ItemTemplate = CollectionViewTemplates.RoutesDataTemplate;
-                break;
-            case "StorageEntity":
-                BindingContext = new EntityItemsVM<StorageEntity>();
-                ItemsCollectionView.ItemTemplate = CollectionViewTemplates.StorageDataTemplate;
+                ItemsCollectionView.ItemTemplate = CollectionViewTemplates.TripsDataTemplate;
                 break;
             default:
                 return;

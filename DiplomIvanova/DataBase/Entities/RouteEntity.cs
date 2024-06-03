@@ -8,6 +8,7 @@ namespace DiplomIvanova.DataBase.Entities
         //public bool IsLoading { get; set; }
         public Guid? DeparturePointId { get; set; }
         public Guid? ArrivalPointId { get; set; }
+        public List<Guid> IntermediatePointsId { get; set; } = null!;
         public PickUpPointEntity? DeparturePoint { get; set; }
         public PickUpPointEntity? ArrivalPoint { get; set; }
         public List<PickUpPointEntity>? IntermediatePoints { get; set; }

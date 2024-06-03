@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DiplomIvanova.ViewModels
 {
-    public class AdditionVM<T>:BaseViewModel, ISaveViewModel where T : class,IEntityBase,new()
+    public class AdditionVM<T>:MapVM, ISaveViewModel where T : class,IEntityBase,new()
     {
         private T _entity;
         private Dictionary<Entry, string> _properties;

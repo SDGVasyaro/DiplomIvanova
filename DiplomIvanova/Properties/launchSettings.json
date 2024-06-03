@@ -2,8 +2,8 @@
   "profiles": {
     "Windows Machine": {
       "commandName": "Project",
-      "←Rewrite" "from",
-      "MsixPackage" "to",
+      "←Rewrite": "from",
+      "MsixPackage": "to",
       "Project": null,
       "nativeDebugging": false
     }

@@ -34,8 +34,9 @@ namespace DiplomIvanova.DataBase.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            
+            //var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "database.db");
             optionsBuilder.UseSqlite($"Data Source=database.db");
+            base.OnConfiguring(optionsBuilder);
         }
     }
 }

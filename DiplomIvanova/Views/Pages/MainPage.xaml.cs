@@ -1,5 +1,5 @@
-﻿using DiplomIvanova.ViewModels.MainPage;
-using Microsoft.Maui.Controls.Maps;
+﻿using DiplomIvanova.ViewModels.BaseViewModels;
+using DiplomIvanova.ViewModels.MainPage;
 using Newtonsoft.Json;
 using System.Text.Json.Nodes;
 
@@ -12,7 +12,6 @@ namespace DiplomIvanova
         {
             BindingContext = viewModel = new();
             InitializeComponent();
-            
         }
 
         protected override void OnAppearing()
@@ -21,21 +20,10 @@ namespace DiplomIvanova
         }
         private void routeMap_MapClicked(object sender, Microsoft.Maui.Controls.Maps.MapClickedEventArgs e)
         {
-            var pin = new Pin()
-            {
-                Location = new(e.Location.Latitude, e.Location.Longitude),
-                Label = string.Empty,
-            };
-            pin.MarkerClicked += Pin_MarkerClicked;
-
-            routeMap.Pins.Add(pin);
-            if (routeMap.Pins.Count == 2)
-            {
-                DrawRoute(routeMap.Pins[0].Location, routeMap.Pins[1].Location);
+            
 
                 // Add the Polyline to the map's MapElements collection
                 //routeMap.MapElements.Add(polyline);
-            }
 
         }
 
@@ -86,16 +74,7 @@ namespace DiplomIvanova
                         }
                     }
                 }
-                Polyline routeLine = new()
-                {
-                    StrokeColor = Colors.Blue,
-                    StrokeWidth = 5,
-                };
-                foreach (var location in positions)
-                {
-                    routeLine.Add(new Location(location.Latitude, location.Longitude));
-                }
-                routeMap.MapElements.Add(routeLine);
+         
             }
             catch (Exception ex)
             {
@@ -112,11 +91,6 @@ namespace DiplomIvanova
             // и извлечение координат маршрута.
             // Используйте библиотеку для работы с JSON, например, Newtonsoft.Json.
             return null;
-        }
-
-        private void Pin_MarkerClicked(object? sender, PinClickedEventArgs e)
-        {
-            routeMap.Pins.Remove((Pin)sender!);
         }
     }
 

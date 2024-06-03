@@ -6,7 +6,8 @@
              x:Class="DiplomIvanova.Views.Pages.RoutePage" 
 			 xmlns:map="clr-namespace:Syncfusion.Maui.Maps;assembly=Syncfusion.Maui.Maps" 
 			 Title="Построить новый маршрут" 
-			 xmlns:esri="http://schemas.esri.com/arcgis/runtime/2013">
+			 xmlns:esri="http://schemas.esri.com/arcgis/runtime/2013"
+			 xmlns:ext="clr-namespace:DiplomIvanova.ViewModels.TripRequestsViewModels">
 	<Grid RowSpacing="10">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="0.3*" />
@@ -18,27 +19,32 @@
 				<CollectionView ItemsSource="{Binding PickUpPoints}">
 					<CollectionView.ItemTemplate>
 						<DataTemplate>
-							<HorizontalStackLayout x:DataType="entities:PickUpPointEntity">
-								<CheckBox CheckedChanged="CheckBox_CheckedChanged" />
-								<Label Text="{Binding Name}" />
-							</HorizontalStackLayout>
+							<Grid x:DataType="ext:PickUpPointEntityExtension" Margin="10">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="0.1*" />
+									<ColumnDefinition Width="0.45*" />
+									<ColumnDefinition Width="0.45*" />
+								</Grid.ColumnDefinitions>
+								<CheckBox CheckedChanged="CheckBox_CheckedChanged" IsChecked="{Binding IsChecked}"/>
+								<Frame Grid.Column="1" BorderColor="MediumPurple" Margin="10">
+									<Label Text="{Binding Name}" />
+								</Frame>
+								<Frame Grid.Column="2" BorderColor="MediumPurple" Margin="10">
+									<Label Text="{Binding Adress}" />
+								</Frame>
+								
+							</Grid>
 						</DataTemplate>
 					</CollectionView.ItemTemplate>
 				</CollectionView>
 			</VerticalStackLayout>
-			<CollectionView HeightRequest="600" ItemsSource="{Binding PickUpPoints}">
-				<CollectionView.ItemTemplate>
-					<DataTemplate>
-						<HorizontalStackLayout x:DataType="entities:PickUpPointEntity">
-							<CheckBox CheckedChanged="CheckBox_CheckedChanged"/>
-							<Label Text="{Binding Name}" />
-						</HorizontalStackLayout>
-					</DataTemplate>
-				</CollectionView.ItemTemplate>
-			</CollectionView>
 			<HorizontalStackLayout Spacing="30">
 				<Label Text="Водитель:" />
 				<Picker ItemsSource="{Binding Drivers}" SelectedItem="{Binding Driver, Mode=TwoWay}" WidthRequest="300" ItemDisplayBinding="{Binding Name}" SelectedIndexChanged="Picker_SelectedIndexChanged" />
+			</HorizontalStackLayout>
+			<HorizontalStackLayout Spacing="61">
+				<Label Text="Дата:" />
+				<DatePicker Date="{Binding Date}" WidthRequest="300"/>
 			</HorizontalStackLayout>
 			<HorizontalStackLayout Spacing="10">
 				<Label Text="Автомобиль:" />

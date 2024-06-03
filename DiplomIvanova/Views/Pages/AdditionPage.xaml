@@ -3,18 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DiplomIvanova.Views.Pages.AdditionPage" 
 			 xmlns:esri="http://schemas.esri.com/arcgis/runtime/2013"
-			 Title="AdditionPage">
+			 Title="База данных">
 	<Grid RowSpacing="10">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="0.3*" />
 			<ColumnDefinition Width="0.7*" />
 		</Grid.ColumnDefinitions>
-		<FlexLayout HorizontalOptions="CenterAndExpand" JustifyContent="SpaceAround" AlignContent="SpaceAround" Wrap="Wrap">
-			<Button WidthRequest="120" Text="Пункты" Command="{Binding SaveCommand}" />
-			<Button WidthRequest="120" Text="ТС" Command="{Binding SaveCommand}" />
-			<Button WidthRequest="120" Text="Водители" Command="{Binding SaveCommand}" />
-			<Button WidthRequest="120" Text="Рейсы" Command="{Binding SaveCommand}" />
-		</FlexLayout>
-		<esri:MapView Grid.Column="1" Map="{Binding Map}" GraphicsOverlays="{Binding GraphicsOverlays}" MinimumWidthRequest="100" MinimumHeightRequest="500" x:Name="routeMap" />
+		<Grid.RowDefinitions>
+			<RowDefinition Height="auto" />
+			<RowDefinition Height="auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<StackLayout Grid.Row="0" Orientation="Horizontal" HeightRequest="50" VerticalOptions="Start" HorizontalOptions="CenterAndExpand" Spacing="5" x:Name="entityButtonStack">
+			<Button WidthRequest="120" Text="Пункты" Clicked="Button_Clicked" />
+			<Button WidthRequest="120" Text="ТС" Clicked="Button_Clicked" />
+			<Button WidthRequest="120" Text="Водители" Clicked="Button_Clicked" />
+			<Button WidthRequest="120" Text="Рейсы" Clicked="Button_Clicked" />
+		</StackLayout>
+		<StackLayout Grid.Row="1" >
+			<CollectionView ItemsSource="{Binding Items}" x:Name="listView" IsVisible="True" SelectionMode="None">
+			</CollectionView>
+		</StackLayout>
+		<StackLayout Grid.Row="2" Orientation="Horizontal" HeightRequest="50" VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand" Spacing="20" x:Name="reduxStack" Margin="50,10">
+			<Button  Text="Добавить" Clicked="Button_Clicked_2"/>
+			<Button  Text="Сохранить изменения" />
+		</StackLayout>
+		<esri:MapView Grid.Column="1" Grid.RowSpan="3" Map="{Binding Map}" GraphicsOverlays="{Binding GraphicsOverlays}" MinimumWidthRequest="100" MinimumHeightRequest="500" x:Name="routeMap" />
 	</Grid>
 </ContentPage>

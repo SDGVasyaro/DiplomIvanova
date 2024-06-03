@@ -2,7 +2,7 @@
 
 namespace DiplomIvanova.ViewModels.BaseViewModels
 {
-    public abstract class ItemsViewModel<T>:BaseViewModel
+    public abstract class ItemsViewModel<T>: MapVM
     {
         protected List<T> PreloadItems { get;} = [];
         public ObservableCollection<T> Items { get; } = [];

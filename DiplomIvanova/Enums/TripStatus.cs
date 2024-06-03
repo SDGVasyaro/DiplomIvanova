@@ -2,8 +2,8 @@
 {
     public enum TripStatus
     {
-        Formed,
-        InProgress,
-        Ended
+        Запланирован,
+        В_пути,
+        Завершен
     }
 }

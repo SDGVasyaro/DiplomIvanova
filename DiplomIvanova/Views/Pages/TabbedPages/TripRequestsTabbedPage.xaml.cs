@@ -9,14 +9,14 @@ public partial class TripRequestsTabbedPage : TabbedPage
 	ItemsWithStatusVM<TripRequestEntity> viewModel;
     private readonly Dictionary<string, TripStatus> tripStatus = new()
     {
-        { "Сформированные", TripStatus.Formed },
-        { "В процессе", TripStatus.InProgress },
-        { "Завершенные", TripStatus.Ended }
+        { "Сформированные", TripStatus.Запланирован },
+        { "В процессе", TripStatus.В_пути },
+        { "Завершенные", TripStatus.Завершен }
     };
 	public TripRequestsTabbedPage()
 	{
 		BindingContext = viewModel = new();
-        viewModel.RequestStatus = TripStatus.Formed;
+        viewModel.RequestStatus = TripStatus.Запланирован;
         InitializeComponent();
         foreach (var item in Children)
         {

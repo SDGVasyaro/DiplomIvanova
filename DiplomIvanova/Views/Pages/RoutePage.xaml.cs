@@ -30,16 +30,19 @@ public partial class RoutePage : ContentPage
     private void Picker_SelectedIndexChanged(object sender, EventArgs e)
     {
         _viewModel.Driver = (sender as Picker)!.SelectedItem as DriverEntity;
+        _viewModel.SaveCommand.ChangeCanExecute();
     }
 
     private void Picker_SelectedIndexChanged_1(object sender, EventArgs e)
     {
         _viewModel.Car = (sender as Picker)!.SelectedItem as CarEntity;
+        _viewModel.SaveCommand.ChangeCanExecute();
     }
 
-    private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    private async void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
-       
+        _viewModel.SaveCommand.ChangeCanExecute();
+        await _viewModel.DrawRoute();
     }
 
     private async void routeMap_GeoViewTapped(object sender, Esri.ArcGISRuntime.Maui.GeoViewInputEventArgs e)

@@ -9,8 +9,11 @@ namespace DiplomIvanova.ViewModels.BaseViewModels
 {
     public class EntityItemsVM<T>:ItemsViewModel<T> where T : class, IEntityBase, new()
     {
+        public Command DeleteCommand { get; }
+
         public EntityItemsVM() : base()
         {
+
         }
         protected override async Task LoadItemsAsync()
         {
@@ -22,6 +25,7 @@ namespace DiplomIvanova.ViewModels.BaseViewModels
         protected override void OnItemTapped(T item)
         {
         }
+
 
     }
 }

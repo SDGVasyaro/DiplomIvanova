@@ -1,157 +1,208 @@
 ﻿using DiplomIvanova.DataBase.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+using DiplomIvanova.Enums;
 
 namespace DiplomIvanova.Views.Templates
 {
     public static class CollectionViewTemplates
     {
+        
         public static DataTemplate CarsDataTemplate => new(()=>
         {
-            var stack=new VerticalStackLayout()
+            var stack=new Grid()
             {
                 Padding = 10
             };
-            Label name = new();
-            Label number = new();
-            Label date = new();
-            Label mileage = new();
-            Label capacity = new();
-            name.SetBinding(Label.TextProperty, nameof(CarEntity.Name));
-            number.SetBinding(Label.TextProperty, nameof(CarEntity.Number));
-            date.SetBinding(Label.TextProperty, nameof(CarEntity.DateOfCommissioning));
-            mileage.SetBinding(Label.TextProperty, nameof(CarEntity.Mileage));
-            capacity.SetBinding(Label.TextProperty, nameof(CarEntity.Сapacity));
+            Image delete = new()
+            {
+                Source = ImageSource.FromFile("delete.png")
+            };
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.33, GridUnitType.Star) });
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.33, GridUnitType.Star) });
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.25, GridUnitType.Star) });
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.08, GridUnitType.Star) });
+            BoxView boxView = new()
+            {
+                HeightRequest = 1,
+                Color = Color.FromRgba(0,0,0,255),
+            };
+
+            Entry name = new();
+            Entry number = new();
+            Entry capacity = new();
+            name.SetBinding(Entry.TextProperty, nameof(CarEntity.Name), BindingMode.TwoWay);
+            number.SetBinding(Entry.TextProperty, nameof(CarEntity.Number),BindingMode.TwoWay);
+            capacity.SetBinding(Entry.TextProperty, nameof(CarEntity.Mileage), BindingMode.TwoWay);
             stack.Add(name);
-            stack.Add(number);
-            stack.Add(date);
-            stack.Add(mileage);
-            stack.Add(capacity);
+            stack.Add(number,1,0);
+            stack.Add(capacity,2,0);
+            stack.Add(delete, 3, 0);
             return stack;
         });
-        public static DataTemplate ClientsDataTemplate => new(() =>
+        public static Grid GetCarsHeaderTemplate()
         {
-            var stack = new VerticalStackLayout()
+            var stack = new Grid()
             {
                 Padding = 10
-            }; 
-            Label name = new();
-            Label number = new();
-            Label adress = new();
-            name.SetBinding(Label.TextProperty, nameof(ClientEntity.Name));
-            number.SetBinding(Label.TextProperty, nameof(ClientEntity.Phone));
-            adress.SetBinding(Label.TextProperty, nameof(ClientEntity.Adress));
+            };
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.33, GridUnitType.Star) });
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.33, GridUnitType.Star) });
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.33, GridUnitType.Star) });
+
+            Label name = new() { Text = "Наименование" };
+            Label number = new() { Text = "Номер" };
+            Label capacity = new() { Text = "Пробег/км" };
             stack.Add(name);
-            stack.Add(number);
-            stack.Add(adress);
+            stack.Add(number, 1, 0);
+            stack.Add(capacity, 2, 0);
+
             return stack;
-        });
+        }
         public static DataTemplate DriversDataTemplate => new(() =>
         {
-            var stack = new VerticalStackLayout()
+            var stack = new Grid()
             {
                 Padding = 10
             };
-            Label name = new();
-            name.SetBinding(Label.TextProperty, nameof(DriverEntity.Name));
+            Image delete = new()
+            {
+                Source = ImageSource.FromFile("delete.png")
+            };
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.5, GridUnitType.Star) });
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.42, GridUnitType.Star) });
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.08, GridUnitType.Star) });
+
+            Entry name = new();
+            Entry exp = new();
+
+            name.SetBinding(Entry.TextProperty, nameof(DriverEntity.Name));
+            exp.SetBinding(Entry.TextProperty, nameof(DriverEntity.Experience));
             stack.Add(name);
+            stack.Add(exp,1);
+            stack.Add(delete,2);
+
             return stack;
         });
-        public static DataTemplate StorageDataTemplate => new(() =>
+        public static Grid GetDriversHeaderTemplate()
         {
-            var stack = new VerticalStackLayout()
+            var stack = new Grid()
             {
                 Padding = 10
             };
-            Label name = new();
-            //Label adress = new();
-            //name.SetBinding(Label.TextProperty, nameof(StorageEntity.Name));
-            //adress.SetBinding(Label.TextProperty, nameof(StorageEntity.adress));
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.5, GridUnitType.Star) });
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.5, GridUnitType.Star) });
+
+            Label name = new() { Text = "ФИО" };
+            Label exp = new() { Text = "Стаж" };
             stack.Add(name);
-            //stack.Add(adress);
+            stack.Add(exp, 1, 0);
             return stack;
-        });
-        public static DataTemplate PickUpPointDataTemplate => StorageDataTemplate;
-        public static DataTemplate ProductsDataTemplate => new(() =>
+        }
+        public static DataTemplate PickUpPointDataTemplate => new(() =>
         {
-            var stack = new VerticalStackLayout()
+            var stack = new Grid()
             {
                 Padding = 10
             };
+            Image delete = new()
+            {
+                Source = ImageSource.FromFile("delete.png")
+            };
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.5, GridUnitType.Star) });
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.42, GridUnitType.Star) });
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.08, GridUnitType.Star) });
             Label name = new();
-            Label weight = new();
-            Label description = new();
-            name.SetBinding(Label.TextProperty, nameof(ProductEntity.Name));
-            weight.SetBinding(Label.TextProperty, nameof(ProductEntity.Weight));
-            description.SetBinding(Label.TextProperty, nameof(ProductEntity.Description));
+            Label adress = new();
+            name.SetBinding(Label.TextProperty, nameof(PickUpPointEntity.Name));
+            adress.SetBinding(Label.TextProperty, nameof(PickUpPointEntity.Adress));
             stack.Add(name);
-            stack.Add(weight);
-            stack.Add(description);
+            stack.Add(adress,1);
+            stack.Add(delete,2);
             return stack;
         });
-        public static DataTemplate RoutesDataTemplate => new(() =>
+        public static Grid GetPickUpPointHeaderTemplate()
         {
-            var stack = new VerticalStackLayout()
+            var stack = new Grid()
             {
                 Padding = 10
             };
-            Label id = new();
-            Label storage = new();
-            Label weight = new();
-            id.SetBinding(Label.TextProperty, nameof(RouteEntity.Id));
-            //storage.SetBinding(Label.TextProperty, nameof(RouteEntity.Storage.Name));
-            //weight.SetBinding(Label.TextProperty, nameof(RouteEntity.Weight));
-            stack.Add(id);
-            stack.Add(weight);
-            stack.Add(storage);
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.5, GridUnitType.Star) });
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.5, GridUnitType.Star) });
+
+            Label name = new() { Text = "Наименование" };
+            Label adress = new() { Text = "Адресс" };
+            stack.Add(name);
+            stack.Add(adress,1);
+
             return stack;
-        });
+        }
         public static DataTemplate TripsDataTemplate => new(() =>
         {
-            var stack = new VerticalStackLayout()
+            var stack = new Grid()
             {
-                Padding = 10
+                Padding = 10,
+                ColumnSpacing=3,
             };
-            Label started = new();
-            Label ended = new();
-            Label status = new();
-            Label auto = new();
+            Image delete = new()
+            {
+                Source = ImageSource.FromFile("delete.png")
+            };
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.2, GridUnitType.Star) });
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.25, GridUnitType.Star) });
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.18, GridUnitType.Star) });
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.29, GridUnitType.Star) });
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.07, GridUnitType.Star) });
+            Label start = new();
+            Label durr = new();
             Label driver = new();
-            started.SetBinding(Label.TextProperty, nameof(TripEntity.StartAt));
-            ended.SetBinding(Label.TextProperty, nameof(TripEntity.EndAt));
-            status.SetBinding(Label.TextProperty, nameof(TripEntity.Status));
-            auto.SetBinding(Label.TextProperty, nameof(TripEntity.Car.Number));
-            driver.SetBinding(Label.TextProperty, nameof(TripEntity.Driver.Name));
-            stack.Add(started);
-            stack.Add(ended);
-            stack.Add(status);
-            stack.Add(auto);
-            stack.Add(driver);
+            Label car = new();
+            Picker status = new();
+            //var statuses = new List<TripStatus>()
+            //{
+            //    TripStatus.Запланирован,
+            //    TripStatus.В_пути,
+            //    TripStatus.Завершен,
+            //};
+            var statuses = new List<string>()
+            {
+                "Запланирован",
+                "В пути",
+                "Завершен",
+            };
+            status.ItemsSource = statuses;
+            status.SelectedIndex = 0;
+            //status.SetBinding(Picker.SelectedItemProperty, nameof(TripEntity.Status));
+            start.SetBinding(Label.TextProperty, nameof(TripEntity.StartAt));
+            driver.SetBinding(Label.TextProperty, nameof(TripEntity.DriverName));
+            car.SetBinding(Label.TextProperty, nameof(TripEntity.CarName));
+            stack.Add(start);
+            stack.Add(driver,1);
+            stack.Add(car,2);
+            stack.Add(status,3);
+            stack.Add(delete, 4);
+            //stack.Add(boxView);
             return stack;
         });
-        public static DataTemplate TripRequestsDataTemplate => new(() =>
+        public static Grid GetTripsHeaderTemplate()
         {
-            var stack = new VerticalStackLayout()
+            var stack = new Grid()
             {
                 Padding = 10
             };
-            Label id = new();
-            Label client = new();
-            Label products = new();
-            Label date = new();
-            id.SetBinding(Label.TextProperty, nameof(TripRequestEntity.Id));
-            client.SetBinding(Label.TextProperty, nameof(TripRequestEntity.Client.Name));
-            products.SetBinding(Label.TextProperty, nameof(TripRequestEntity.Products.Count));
-            //date.SetBinding(Label.TextProperty, nameof(TripRequestEntity.CreatedAt));
-            stack.Add(id);
-            stack.Add(client);
-            stack.Add(products);
-            stack.Add(date);
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.2, GridUnitType.Star) });
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.26, GridUnitType.Star) });
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.25, GridUnitType.Star) });
+            stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.28, GridUnitType.Star) });
+
+            Label start = new() { Text = "Дата Начала" };
+            Label driver = new() { Text = "Водитель" };
+            Label car = new() { Text = "Автомобиль" };
+            Label status = new() { Text = "Статус" };
+            stack.Add(start);
+            stack.Add(driver,1);
+            stack.Add(car,2);
+            stack.Add(status, 3);
+
             return stack;
-        });
+        }
     }
 }
