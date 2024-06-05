@@ -39,66 +39,40 @@ public partial class AdditionPage : ContentPage
     {
         //ChangePageContent();
     }
-
-    private void ChangePageContent()
-    {
-        //contentStack.Children.Remove(_view);
-        (View content, Dictionary<Entry, string> fields) templ;
-        switch (currentEntity)
-        {
-            case "ТС":
-                templ = AdditionTemplates.CarsDataTemplate;
-                BindingContext = new AdditionVM<CarEntity>(new CarEntity(), templ.fields);
-                break;
-            case "Водители":
-                templ = AdditionTemplates.DriversDataTemplate;
-                BindingContext = new AdditionVM<DriverEntity>(new DriverEntity(), templ.fields);
-                break;
-            //case "PickUpPointEntity":
-            //    BindingContext = new EntityItemsVM<PickUpPointEntity>();
-            //    Content = AdditionTemplates.PickUpPointDataTemplate;
-            //    break;
-            //case "ProductEntity":
-            //    BindingContext = new EntityItemsVM<ProductEntity>();
-            //    Content = AdditionTemplates.ProductsDataTemplate;
-            //    break;
-            //case "RouteEntity":
-            //    BindingContext = new EntityItemsVM<RouteEntity>();
-            //    Content = AdditionTemplates.RoutesDataTemplate;
-            //    break;
-            //case "StorageEntity":
-            //    BindingContext = new EntityItemsVM<StorageEntity>();
-            //    Content = AdditionTemplates.StorageDataTemplate;
-            //    break;
-            default:
-                return;
-        }
-        Content = templ.content;
-        //contentStack.Children.Add(_view);
-    }
     private void ChangeBindingContext(string itemsType)
     {
+        AddStack.Children.Clear();
         if (string.IsNullOrWhiteSpace(itemsType))
             return;
         switch (itemsType)
         {
             case "ТС":
-                BindingContext = new EntityItemsVM<CarEntity>();
+                var viewModel= new EntityItemsVM<CarEntity>();
+                CollectionViewTemplates.DeleteCommand=viewModel.DeleteCommand;
+                BindingContext = viewModel;
                 listView.ItemTemplate = CollectionViewTemplates.CarsDataTemplate;
                 listView.Header = CollectionViewTemplates.GetCarsHeaderTemplate();
+                AddStack.Children.Add(viewModel.CarsAddDataTemplate.content);
                 break;
             case "Водители":
-                BindingContext = new EntityItemsVM<DriverEntity>();
+                var viewModel1 = new EntityItemsVM<DriverEntity>();
+                CollectionViewTemplates.DeleteCommand = viewModel1.DeleteCommand;
+                BindingContext = viewModel1;
                 listView.ItemTemplate = CollectionViewTemplates.DriversDataTemplate;
                 listView.Header = CollectionViewTemplates.GetDriversHeaderTemplate();
+                AddStack.Children.Add(viewModel1.DriversAddDataTemplate.content);
                 break;
             case "Пункты":
-                BindingContext = new EntityItemsVM<PickUpPointEntity>();
+                var viewModel2 = new EntityItemsVM<PickUpPointEntity>();
+                CollectionViewTemplates.DeleteCommand = viewModel2.DeleteCommand;
+                BindingContext = viewModel2;
                 listView.ItemTemplate = CollectionViewTemplates.PickUpPointDataTemplate;
                 listView.Header = CollectionViewTemplates.GetPickUpPointHeaderTemplate();
                 break;
             case "Рейсы":
-                BindingContext = new EntityItemsVM<TripEntity>();
+                var viewModel3 = new EntityItemsVM<TripEntity>();
+                CollectionViewTemplates.DeleteCommand = viewModel3.DeleteCommand;
+                BindingContext = viewModel3;
                 listView.ItemTemplate = CollectionViewTemplates.TripsDataTemplate;
                 listView.Header = CollectionViewTemplates.GetTripsHeaderTemplate();
                 listView.SelectionMode = SelectionMode.Single;
@@ -269,6 +243,6 @@ public partial class AdditionPage : ContentPage
 
     private void Button_Clicked_2(object sender, EventArgs e)
     {
-        ChangePageContent();
+        //ChangePageContent();
     }
 }

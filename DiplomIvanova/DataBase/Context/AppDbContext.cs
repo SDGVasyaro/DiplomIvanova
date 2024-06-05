@@ -8,7 +8,7 @@ namespace DiplomIvanova.DataBase.Context
         private readonly string _databasePath = $"{AppContext.BaseDirectory}/DataBase/database.db";
         public DbSet<CarEntity> Cars { get; set; }
         //public DbSet<TripRequestEntity> TripRequests { get; set; }
-        public DbSet<ClientEntity> Clients { get; set; }
+        //public DbSet<ClientEntity> Clients { get; set; }
         public DbSet<DriverEntity> Drivers { get; set; }
         //public DbSet<ProductEntity> Products { get; set; }
         public DbSet<PickUpPointEntity> PickUpPoints { get; set; }
@@ -24,7 +24,6 @@ namespace DiplomIvanova.DataBase.Context
         {
 
             modelBuilder.Entity<CarEntity>().Property(e => e.Id).ValueGeneratedOnAdd();
-            modelBuilder.Entity<ClientEntity>().Property(e => e.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<DriverEntity>().Property(e => e.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<PickUpPointEntity>().Property(e => e.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<RouteEntity>().Property(e => e.Id).ValueGeneratedOnAdd();
@@ -36,7 +35,8 @@ namespace DiplomIvanova.DataBase.Context
         {
             //var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "database.db");
             optionsBuilder.UseSqlite($"Data Source=database.db");
-            base.OnConfiguring(optionsBuilder);
+            //base.OnConfiguring(optionsBuilder);
+            //optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=diplomDb;Username=postgres;Password=666");
         }
     }
 }

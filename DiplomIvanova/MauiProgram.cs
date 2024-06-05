@@ -56,7 +56,6 @@ namespace DiplomIvanova
             var carInfo = new CarEntity()
             {
                 Name = "BMW",
-                DateOfCommissioning = DateTime.Now,
                 Mileage = 100,
                 Number = "a666aa76",
                 Сapacity = 10d,
@@ -64,7 +63,6 @@ namespace DiplomIvanova
             var carInfo1 = new CarEntity()
             {
                 Name = "Mercedes",
-                DateOfCommissioning = DateTime.Now,
                 Mileage = 70,
                 Number = "a656aa76",
                 Сapacity = 9d,
@@ -72,7 +70,6 @@ namespace DiplomIvanova
             var carInfo2 = new CarEntity()
             {
                 Name = "Volvo",
-                DateOfCommissioning = DateTime.Now,
                 Mileage = 140,
                 Number = "a623aa88",
                 Сapacity = 10d,
@@ -80,7 +77,6 @@ namespace DiplomIvanova
             var carInfo3 = new CarEntity()
             {
                 Name = "Volkswagen",
-                DateOfCommissioning = DateTime.Now,
                 Mileage = 80,
                 Number = "м666aa76",
                 Сapacity = 10d,
@@ -88,7 +84,6 @@ namespace DiplomIvanova
             var carInfo4 = new CarEntity()
             {
                 Name = "Chevrolet",
-                DateOfCommissioning = DateTime.Now,
                 Mileage = 99,
                 Number = "c666aa76",
                 Сapacity = 5d,
@@ -96,7 +91,6 @@ namespace DiplomIvanova
             var carInfo5 = new CarEntity()
             {
                 Name = "Lada",
-                DateOfCommissioning = DateTime.Now,
                 Mileage = 100,
                 Number = "к666aa76",
                 Сapacity = 10d,
@@ -104,7 +98,6 @@ namespace DiplomIvanova
             var carInfo6 = new CarEntity()
             {
                 Name = "Audi",
-                DateOfCommissioning = DateTime.Now,
                 Mileage = 100,
                 Number = "в666aa76",
                 Сapacity = 10d,
@@ -124,7 +117,7 @@ namespace DiplomIvanova
             var carInfo = new DriverEntity()
             {
                 Name = "Рождественский В.С.",
-                Experience = 66,
+                Experience = 17,
             };
             var carInfo1 = new DriverEntity()
             {
@@ -144,26 +137,40 @@ namespace DiplomIvanova
             var carInfo4 = new DriverEntity()
             {
                 Name = "Соболев С.С.",
-                Experience = 80,
+                Experience = 12,
             };
             var carInfo5 = new DriverEntity()
             {
                 Name = "Григорьев Ш.П.",
-                Experience = 80,
+                Experience = 14,
             };
             var carInfo6 = new DriverEntity()
             {
                 Name = "Колунов И.А.",
-                Experience = 80,
+                Experience = 13,
             };
+
             await db.Drivers.AddAsync(carInfo, cancellationToken);
+            await db.SaveChangesAsync(cancellationToken);
             await db.Drivers.AddAsync(carInfo1, cancellationToken);
+            await db.SaveChangesAsync(cancellationToken);
             await db.Drivers.AddAsync(carInfo2, cancellationToken);
+            await db.SaveChangesAsync(cancellationToken);
             await db.Drivers.AddAsync(carInfo3, cancellationToken);
+            await db.SaveChangesAsync(cancellationToken);
             await db.Drivers.AddAsync(carInfo4, cancellationToken);
+            await db.SaveChangesAsync(cancellationToken);
             await db.Drivers.AddAsync(carInfo5, cancellationToken);
+            await db.SaveChangesAsync(cancellationToken);
             await db.Drivers.AddAsync(carInfo6, cancellationToken);
             await db.SaveChangesAsync(cancellationToken);
+            //var carInfo7 = new DriverEntity()
+            //{
+            //    Name = "Стрельбовский К.А.",
+            //    Experience = 21,
+            //};
+            //await db.Drivers.AddAsync(carInfo7, cancellationToken);
+            //await db.SaveChangesAsync(cancellationToken);
         }
         private static async Task AddPointsAsync(AppDbContext db, CancellationToken cancellationToken)
         {

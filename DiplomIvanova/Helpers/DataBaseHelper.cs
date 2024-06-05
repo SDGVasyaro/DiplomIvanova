@@ -28,6 +28,32 @@ namespace DiplomIvanova.Helpers
             }
             return false;
         }
+        public static async Task<bool> UpdateItemAsync<T>(T item) where T : class, IEntityBase, new()
+        {
+            using var db = new AppDbContext();
+            var dbSet = GetDbSet<T>(db, typeof(T).Name);
+            if (dbSet is not null)
+            {
+                dbSet.Update(item);
+                await db.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+        public static async Task<bool> DeleteItemAsync<T>(Guid id) where T : class, IEntityBase, new()
+        {
+            using var db = new AppDbContext();
+            var dbSet = GetDbSet<T>(db, typeof(T).Name);
+            if (dbSet is not null)
+            {
+                var entity=await dbSet.FirstOrDefaultAsync(x=>x.Id==id);
+                dbSet.Remove(entity!);
+                await db.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
         private static DbSet<T>? GetDbSet<T>(AppDbContext db,string typeName) where T : class,IEntityBase, new()
         {
             var dbSet=db.GetType().GetProperties()

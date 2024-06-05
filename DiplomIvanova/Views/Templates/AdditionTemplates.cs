@@ -8,78 +8,39 @@ using System.Threading.Tasks;
 
 namespace DiplomIvanova.Views.Templates
 {
-    public static class AdditionTemplates
+    public  class AdditionTemplates
     {
         public static (View content,Dictionary<Entry,string> fields) CarsDataTemplate {
             get  
             {
                 var dictionary = new Dictionary<Entry,string>();
-                var stack = new VerticalStackLayout();
-                Label name = new() { Text = "Наименование" };
-                Label number = new() { Text = "Номер" };
-                Label date = new() { Text = "Дата введения в эксплуатацию" };
-                Label mileage = new() { Text = "Пробег" };
-                Label capacity = new() { Text = "Вместимость" };
+                var stack = new Grid()
+                {
+                    Padding = 10
+                };
+                ImageButton add = new()
+                {
+                    Source = ImageSource.FromFile("add.png"),
+                };
+                stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.33, GridUnitType.Star) });
+                stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.33, GridUnitType.Star) });
+                stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.25, GridUnitType.Star) });
+                stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.08, GridUnitType.Star) });
 
                 Entry nameEntry = new();
                 Entry numberEntry = new();
-                Entry dateEntry = new();
                 Entry mileageEntry = new();
-                Entry capacityEntry = new();
 
                 dictionary.Add(nameEntry, nameof(CarEntity.Name));
                 dictionary.Add(numberEntry, nameof(CarEntity.Number));
-                dictionary.Add(dateEntry, nameof(CarEntity.DateOfCommissioning));
                 dictionary.Add(mileageEntry, nameof(CarEntity.Mileage));
-                dictionary.Add(capacityEntry, nameof(CarEntity.Сapacity));
 
-                stack.Add(name);
                 stack.Add(nameEntry);
-
-                stack.Add(number);
                 stack.Add(numberEntry);
-
-                stack.Add(date);
-                stack.Add(dateEntry);
-
-                stack.Add(mileage);
                 stack.Add(mileageEntry);
-
-                stack.Add(capacity);
-                stack.Add(capacityEntry);
 
                 return (stack,dictionary);
             } 
-        }
-        public static (View content, Dictionary<Entry, string> fields) ClientsDataTemplate
-        {
-            get
-            {
-                var dictionary = new Dictionary<Entry, string>();
-                var stack = new VerticalStackLayout();
-                Label name = new() { Text = "ФИО" };
-                Label number = new() { Text = "Номер телефона" };
-                Label adress = new() { Text = "Адрес" };
-
-                Entry nameEntry = new();
-                Entry numberEntry = new();
-                Entry adressEntry = new();
-
-                dictionary.Add(nameEntry, nameof(ClientEntity.Name));
-                dictionary.Add(numberEntry, nameof(ClientEntity.Phone));
-                dictionary.Add(adressEntry, nameof(ClientEntity.Adress));
-
-                stack.Add(name);
-                stack.Add(nameEntry);
-
-                stack.Add(number);
-                stack.Add(numberEntry);
-
-                stack.Add(adress);
-                stack.Add(adressEntry);
-
-                return (stack, dictionary);
-            }
         }
         public static (View content, Dictionary<Entry, string> fields) DriversDataTemplate
         {
@@ -87,13 +48,13 @@ namespace DiplomIvanova.Views.Templates
             {
                 var dictionary = new Dictionary<Entry, string>();
                 var stack = new VerticalStackLayout();
-                Label name = new() { Text = "ФИО" };
 
                 Entry nameEntry = new();
 
                 dictionary.Add(nameEntry, nameof(DriverEntity.Name));
+                dictionary.Add(nameEntry, nameof(DriverEntity.Experience));
 
-                stack.Add(name);
+                //stack.Add(name);
                 stack.Add(nameEntry);
                 return (stack, dictionary);
             }

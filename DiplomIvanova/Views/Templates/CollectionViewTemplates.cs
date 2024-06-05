@@ -5,16 +5,17 @@ namespace DiplomIvanova.Views.Templates
 {
     public static class CollectionViewTemplates
     {
-        
+        public static Command<Guid> DeleteCommand { get; set; }
         public static DataTemplate CarsDataTemplate => new(()=>
         {
             var stack=new Grid()
             {
                 Padding = 10
             };
-            Image delete = new()
+            ImageButton delete = new()
             {
-                Source = ImageSource.FromFile("delete.png")
+                Source = ImageSource.FromFile("delete.png"),
+                Command = DeleteCommand,
             };
             stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.33, GridUnitType.Star) });
             stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.33, GridUnitType.Star) });
@@ -30,6 +31,7 @@ namespace DiplomIvanova.Views.Templates
             Entry number = new();
             Entry capacity = new();
             name.SetBinding(Entry.TextProperty, nameof(CarEntity.Name), BindingMode.TwoWay);
+            delete.SetBinding(ImageButton.CommandParameterProperty, nameof(CarEntity.Id));
             number.SetBinding(Entry.TextProperty, nameof(CarEntity.Number),BindingMode.TwoWay);
             capacity.SetBinding(Entry.TextProperty, nameof(CarEntity.Mileage), BindingMode.TwoWay);
             stack.Add(name);
@@ -63,17 +65,19 @@ namespace DiplomIvanova.Views.Templates
             {
                 Padding = 10
             };
-            Image delete = new()
+            ImageButton delete = new()
             {
-                Source = ImageSource.FromFile("delete.png")
+                Source = ImageSource.FromFile("delete.png"),
+                Command = DeleteCommand
             };
+            delete.Clicked += (_, __) => { };
             stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.5, GridUnitType.Star) });
             stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.42, GridUnitType.Star) });
             stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.08, GridUnitType.Star) });
 
-            Entry name = new();
-            Entry exp = new();
-
+            Entry name = new() { IsSpellCheckEnabled = false};
+            Entry exp = new() { IsSpellCheckEnabled = false };
+            delete.SetBinding(ImageButton.CommandParameterProperty, nameof(DriverEntity.Id));
             name.SetBinding(Entry.TextProperty, nameof(DriverEntity.Name));
             exp.SetBinding(Entry.TextProperty, nameof(DriverEntity.Experience));
             stack.Add(name);
@@ -103,15 +107,17 @@ namespace DiplomIvanova.Views.Templates
             {
                 Padding = 10
             };
-            Image delete = new()
+            ImageButton delete = new()
             {
-                Source = ImageSource.FromFile("delete.png")
+                Source = ImageSource.FromFile("delete.png"),
+                Command = DeleteCommand
             };
             stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.5, GridUnitType.Star) });
             stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.42, GridUnitType.Star) });
             stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.08, GridUnitType.Star) });
             Label name = new();
             Label adress = new();
+            delete.SetBinding(ImageButton.CommandParameterProperty, nameof(PickUpPointEntity.Id));
             name.SetBinding(Label.TextProperty, nameof(PickUpPointEntity.Name));
             adress.SetBinding(Label.TextProperty, nameof(PickUpPointEntity.Adress));
             stack.Add(name);
@@ -142,9 +148,10 @@ namespace DiplomIvanova.Views.Templates
                 Padding = 10,
                 ColumnSpacing=3,
             };
-            Image delete = new()
+            ImageButton delete = new()
             {
-                Source = ImageSource.FromFile("delete.png")
+                Source = ImageSource.FromFile("delete.png"),
+                Command = DeleteCommand
             };
             stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.2, GridUnitType.Star) });
             stack.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0.25, GridUnitType.Star) });
@@ -171,6 +178,7 @@ namespace DiplomIvanova.Views.Templates
             status.ItemsSource = statuses;
             status.SelectedIndex = 0;
             //status.SetBinding(Picker.SelectedItemProperty, nameof(TripEntity.Status));
+            delete.SetBinding(ImageButton.CommandParameterProperty, nameof(PickUpPointEntity.Id));
             start.SetBinding(Label.TextProperty, nameof(TripEntity.StartAt));
             driver.SetBinding(Label.TextProperty, nameof(TripEntity.DriverName));
             car.SetBinding(Label.TextProperty, nameof(TripEntity.CarName));

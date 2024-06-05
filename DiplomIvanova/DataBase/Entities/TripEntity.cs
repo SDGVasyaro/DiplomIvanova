@@ -12,6 +12,6 @@
         public Guid? DriverId { get; set; }
         public Guid? RouteId { get; set; }
         public RouteEntity? Route { get; set; }
-        public int Durration => (DateTime.Now-StartAt).Days;
+        //public int Durration => (DateTime.Now-StartAt).Days;
     }
 }
