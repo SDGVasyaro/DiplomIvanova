@@ -8,50 +8,58 @@
 			 Title="Построить новый маршрут" 
 			 xmlns:esri="http://schemas.esri.com/arcgis/runtime/2013"
 			 xmlns:ext="clr-namespace:DiplomIvanova.ViewModels.TripRequestsViewModels">
-	<Grid RowSpacing="10">
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="0.3*" />
-			<ColumnDefinition Width="0.7*" />
-		</Grid.ColumnDefinitions>
-		<VerticalStackLayout HorizontalOptions="CenterAndExpand" Spacing="10">
-			<VerticalStackLayout Spacing="30">
-				<Label Text="Выберите пункты:" />
-				<CollectionView ItemsSource="{Binding PickUpPoints}">
-					<CollectionView.ItemTemplate>
-						<DataTemplate>
-							<Grid x:DataType="ext:PickUpPointEntityExtension" Margin="10">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="0.1*" />
-									<ColumnDefinition Width="0.45*" />
-									<ColumnDefinition Width="0.45*" />
-								</Grid.ColumnDefinitions>
-								<CheckBox CheckedChanged="CheckBox_CheckedChanged" IsChecked="{Binding IsChecked}"/>
-								<Frame Grid.Column="1" BorderColor="MediumPurple" Margin="10">
-									<Label Text="{Binding Name}" />
-								</Frame>
-								<Frame Grid.Column="2" BorderColor="MediumPurple" Margin="10">
-									<Label Text="{Binding Adress}" />
-								</Frame>
-								
-							</Grid>
-						</DataTemplate>
-					</CollectionView.ItemTemplate>
-				</CollectionView>
+
+		<Grid RowSpacing="10">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="0.3*" />
+				<ColumnDefinition Width="0.7*" />
+			</Grid.ColumnDefinitions>
+		
+			<VerticalStackLayout HorizontalOptions="CenterAndExpand" Spacing="10" Margin="5">
+			<ScrollView Orientation="Vertical" IsVisible="True">
+				<VerticalStackLayout Spacing="30" >
+					<Label Text="Выберите пункты:" />
+
+					<CollectionView ItemsSource="{Binding PickUpPoints}" HeightRequest="500">
+						<CollectionView.ItemTemplate>
+							<DataTemplate>
+								<Grid x:DataType="ext:PickUpPointEntityExtension" Margin="10">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="0.1*" />
+										<ColumnDefinition Width="0.45*" />
+										<ColumnDefinition Width="0.45*" />
+									</Grid.ColumnDefinitions>
+									<CheckBox CheckedChanged="CheckBox_CheckedChanged" IsChecked="{Binding IsChecked}" />
+									<Frame Grid.Column="1" BorderColor="MediumPurple" Margin="10">
+										<Label Text="{Binding Name}" />
+									</Frame>
+									<Frame Grid.Column="2" BorderColor="MediumPurple" Margin="10">
+										<Label Text="{Binding Adress}" />
+									</Frame>
+
+								</Grid>
+							</DataTemplate>
+						</CollectionView.ItemTemplate>
+					</CollectionView>
+				
 			</VerticalStackLayout>
-			<HorizontalStackLayout Spacing="30">
-				<Label Text="Водитель:" />
-				<Picker ItemsSource="{Binding Drivers}" SelectedItem="{Binding Driver, Mode=TwoWay}" WidthRequest="300" ItemDisplayBinding="{Binding Name}" SelectedIndexChanged="Picker_SelectedIndexChanged" />
-			</HorizontalStackLayout>
-			<HorizontalStackLayout Spacing="61">
-				<Label Text="Дата:" />
-				<DatePicker Date="{Binding Date}" WidthRequest="300"/>
-			</HorizontalStackLayout>
-			<HorizontalStackLayout Spacing="10">
-				<Label Text="Автомобиль:" />
-				<Picker ItemsSource="{Binding Cars}" SelectedItem="{Binding Driver, Mode=TwoWay}" WidthRequest="300" ItemDisplayBinding="{Binding Name}" SelectedIndexChanged="Picker_SelectedIndexChanged_1" />
-			</HorizontalStackLayout>
-			<Button Text="Добавить" Command="{Binding SaveCommand}"/>
-		</VerticalStackLayout>
-		<esri:MapView Grid.Column="1" Map="{Binding Map}" GraphicsOverlays="{Binding GraphicsOverlays}" GeoViewTapped="routeMap_GeoViewTapped" MinimumWidthRequest="100" MinimumHeightRequest="500" x:Name="routeMap" />
-	</Grid>
+		</ScrollView>
+		<HorizontalStackLayout Spacing="30">
+					<Label Text="Водитель:" />
+					<Picker ItemsSource="{Binding Drivers}" SelectedItem="{Binding Driver, Mode=TwoWay}" WidthRequest="300" ItemDisplayBinding="{Binding Name}" SelectedIndexChanged="Picker_SelectedIndexChanged" />
+				</HorizontalStackLayout>
+				<HorizontalStackLayout Spacing="61">
+					<Label Text="Дата:" />
+					<DatePicker Date="{Binding Date}" WidthRequest="300" />
+				</HorizontalStackLayout>
+				<HorizontalStackLayout Spacing="10">
+					<Label Text="Автомобиль:" />
+					<Picker ItemsSource="{Binding Cars}" SelectedItem="{Binding Driver, Mode=TwoWay}" WidthRequest="300" ItemDisplayBinding="{Binding Name}" SelectedIndexChanged="Picker_SelectedIndexChanged_1" />
+				</HorizontalStackLayout>
+				<Button Text="Добавить" Command="{Binding SaveCommand}" />
+			</VerticalStackLayout>
+		
+		<esri:MapView Grid.Column="1" Map="{Binding Map}" GraphicsOverlays="{Binding GraphicsOverlays}"  GeoViewTapped="routeMap_GeoViewTapped" MinimumWidthRequest="100" MinimumHeightRequest="500" x:Name="routeMap" />
+		</Grid>
+
 </ContentPage>

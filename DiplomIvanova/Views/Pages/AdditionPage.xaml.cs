@@ -25,8 +25,9 @@ public partial class AdditionPage : ContentPage
 
     public AdditionPage()
 	{
-		InitializeComponent();
         BindingContext = new TripRequestVM();
+        InitializeComponent();
+        
         defaultView = Content;
         //picker.Items.Add("CarEntity");
         //picker.Items.Add("ClientEntity");
@@ -39,7 +40,7 @@ public partial class AdditionPage : ContentPage
     {
         //ChangePageContent();
     }
-    private void ChangeBindingContext(string itemsType)
+    private async void ChangeBindingContext(string itemsType)
     {
         AddStack.Children.Clear();
         if (string.IsNullOrWhiteSpace(itemsType))
@@ -64,10 +65,12 @@ public partial class AdditionPage : ContentPage
                 break;
             case "Пункты":
                 var viewModel2 = new EntityItemsVM<PickUpPointEntity>();
+                viewModel2.MapView = routeMap;
                 CollectionViewTemplates.DeleteCommand = viewModel2.DeleteCommand;
                 BindingContext = viewModel2;
                 listView.ItemTemplate = CollectionViewTemplates.PickUpPointDataTemplate;
                 listView.Header = CollectionViewTemplates.GetPickUpPointHeaderTemplate();
+                AddStack.Children.Add(viewModel2.PointsAddDataTemplate.content);
                 break;
             case "Рейсы":
                 var viewModel3 = new EntityItemsVM<TripEntity>();
@@ -76,33 +79,19 @@ public partial class AdditionPage : ContentPage
                 listView.ItemTemplate = CollectionViewTemplates.TripsDataTemplate;
                 listView.Header = CollectionViewTemplates.GetTripsHeaderTemplate();
                 listView.SelectionMode = SelectionMode.Single;
-                listView.SelectionChanged += async (_, __) => await DrawRoute(__.CurrentSelection as TripEntity);
+                listView.SelectionChanged += async (_, __) => await DrawRoute(__.CurrentSelection.First() as TripEntity);
                 break;
             default:
                 return;
         }
     }
 
-    private async Task GetAdressAsync()
-    {
-        MapPoint normalizedPoint = new(1,2);//(MapPoint)e.Location.NormalizeCentralMeridian();
-        Uri _serviceUri = new Uri("https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer");
-        LocatorTask _geocoder = await LocatorTask.CreateAsync(_serviceUri);
-        // Reverse geocode to get addresses.
-        IReadOnlyList<GeocodeResult> addresses = await _geocoder.ReverseGeocodeAsync(normalizedPoint);
-
-        // Get the first result.
-        GeocodeResult address = addresses.First();
-
-        // Use the city and region for the Callout Title.
-        string calloutTitle = address.Attributes["Address"].ToString();
-    }
+    
 
     private async Task DrawRoute(TripEntity trip)
     {
-        // Используйте подходящий API для Bing Maps, 
-        // чтобы получить данные о маршруте.
-        // Пример с использованием HttpClient:
+        if (trip == null)
+            return;
         using var db = new AppDbContext();
         var _viewModel = BindingContext as EntityItemsVM<TripEntity>;
         var routeTask = await RouteTask.CreateAsync(new Uri(
@@ -114,25 +103,51 @@ public partial class AdditionPage : ContentPage
             {
                 x.Route.ArrivalPoint,
                 x.Route.DeparturePoint,
-                x.Route.IntermediatePoints
+                x.Route.IntermediatePointsId,
             }).FirstOrDefaultAsync(default);
-        var stops = route.IntermediatePoints.Count == 0 ? 
-            new List<Stop>()
+        List<PickUpPointEntity> IntermediatePoints = [];
+        if (route.IntermediatePointsId.Any())
         {
-            new Stop(new MapPoint(route.DeparturePoint.Longitude,route.DeparturePoint.Latitude)),
-            new Stop(new MapPoint(route.DeparturePoint.Latitude,route.DeparturePoint.Latitude)),
+            IntermediatePoints = await db.PickUpPoints.Where(x => route.IntermediatePointsId.Contains(x.Id)).ToListAsync(default);
         }
-         : SolveTravellingSalesmanProblem(new List<MapPoint>(route.IntermediatePoints.Select(x => new MapPoint(x.Longitude, x.Latitude)))).Select(x=>new Stop(x)).ToList();
-
-        routeParams.SetStops(stops);
-        RouteResult routeResult = await routeTask.SolveRouteAsync(routeParams);
-
-        // Получение маршрутного графика
-        Esri.ArcGISRuntime.Geometry.Polyline routePath = routeResult?.Routes?.First()?.RouteGeometry!;
-        var polylineSymbol = new SimpleLineSymbol(SimpleLineSymbolStyle.Solid, System.Drawing.Color.Purple, 3.0);
-        var polylineGraphic = new Graphic(routePath, polylineSymbol);
+        IntermediatePoints.Add(route.DeparturePoint);
+        IntermediatePoints.Add(route.ArrivalPoint);
+        var mapPoints = IntermediatePoints.Select(x=>new MapPoint(x.Longitude, x.Latitude)).ToList();
+        var first = new Stop(IntermediatePoints.Select(x => new MapPoint(x.Longitude, x.Latitude)).First());
+        // Установка исходной и конечной точек
+        var solve = SolveTravellingSalesmanProblem(mapPoints).Select(x => new Stop(x)).ToList();
+        var polylines = new List<Polyline>();
         _viewModel.GraphicsOverlays![1].Graphics.Clear();
-        _viewModel.GraphicsOverlays![1].Graphics.Add(polylineGraphic);
+        while (solve.Count > 1)
+        {
+            routeParams.ClearStops();
+            var stops = new List<Stop>()
+                {
+                    solve.First(),
+                    solve[1],
+                };
+            routeParams.SetStops(stops);
+            RouteResult routeResult = await routeTask.SolveRouteAsync(routeParams);
+            Esri.ArcGISRuntime.Geometry.Polyline routePath = routeResult?.Routes?.First()?.RouteGeometry!;
+            polylines.Add(routePath);
+            var polylineSymbol = new SimpleLineSymbol(SimpleLineSymbolStyle.Solid, System.Drawing.Color.Purple, 3.0);
+            var polylineGraphic = new Graphic(routePath, polylineSymbol);
+            _viewModel.GraphicsOverlays![1].Graphics.Add(polylineGraphic);
+            solve.RemoveAt(0);
+        }
+        routeParams.ClearStops();
+        var stops1 = new List<Stop>()
+                {
+                    solve.First(),
+                    first,
+                };
+        routeParams.SetStops(stops1);
+        var routeResult1 = await routeTask.SolveRouteAsync(routeParams);
+        var routePath1 = routeResult1?.Routes?.First()?.RouteGeometry!;
+        polylines.Add(routePath1);
+        var polylineSymbol1 = new SimpleLineSymbol(SimpleLineSymbolStyle.Solid, System.Drawing.Color.Purple, 3.0);
+        var polylineGraphic1 = new Graphic(routePath1, polylineSymbol1);
+        _viewModel.GraphicsOverlays![1].Graphics.Add(polylineGraphic1);
     }
 
     private async void Button_Clicked(object sender, EventArgs e)

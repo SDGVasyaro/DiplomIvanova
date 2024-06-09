@@ -1,6 +1,7 @@
 using DiplomIvanova.DataBase.Entities;
 using DiplomIvanova.ViewModels.TripRequestsViewModels;
 using Esri.ArcGISRuntime.Geometry;
+using Esri.ArcGISRuntime.Mapping;
 using Esri.ArcGISRuntime.Symbology;
 using Esri.ArcGISRuntime.Tasks.NetworkAnalysis;
 using Esri.ArcGISRuntime.UI;
@@ -47,28 +48,10 @@ public partial class RoutePage : ContentPage
 
     private async void routeMap_GeoViewTapped(object sender, Esri.ArcGISRuntime.Maui.GeoViewInputEventArgs e)
     {
-        var dumeBeachPoint = e.Location;
-        var sda = e.Position;
-        _viewModel.Pins.Add(dumeBeachPoint!);
-        
+        // Создаем точку, к которой необходимо переместить карту
 
-        var pointSymbol = new SimpleMarkerSymbol
-        {
-            Style = SimpleMarkerSymbolStyle.Circle,
-            Color = System.Drawing.Color.Orange,
-            Size = 10.0,
-            // Add an outline to the symbol.
-            Outline = new SimpleLineSymbol
-            {
-                Style = SimpleLineSymbolStyle.Solid,
-                Color = System.Drawing.Color.Purple,
-                Width = 2.0
-            }
-        };
-        var pointGraphic = new Graphic(dumeBeachPoint, pointSymbol);
 
-        // Add the point graphic to graphics overlay.
-        _viewModel.GraphicsOverlays![0].Graphics.Add(pointGraphic);
+
         if (_viewModel.Pins.Count >= 2)
         {
             DrawRoute();
