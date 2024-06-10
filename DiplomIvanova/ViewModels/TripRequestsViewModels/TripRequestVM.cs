@@ -14,6 +14,7 @@ namespace DiplomIvanova.ViewModels.TripRequestsViewModels
     public class PickUpPointEntityExtension : PickUpPointEntity
     {
         public bool IsChecked { get; set; }
+        public bool IsFirst { get; set; }
     }
     public class TripRequestVM:MapVM
     {
@@ -79,7 +80,7 @@ namespace DiplomIvanova.ViewModels.TripRequestsViewModels
         private async void OnSave()
         {
             using var db = new AppDbContext();
-            ChoosedPoints = PickUpPoints.Where(x=>x.IsChecked).Select(x=>x as PickUpPointEntity).ToList();
+            ChoosedPoints = PickUpPoints.Where(x=>x.IsChecked).OrderByDescending(x=>x.IsFirst).Select(x=>x as PickUpPointEntity).ToList();
 
             var intermediate = ChoosedPoints.Skip(1).SkipLast(1).Select(x => x.Id).ToList();
             RouteEntity route = new()
@@ -112,7 +113,7 @@ namespace DiplomIvanova.ViewModels.TripRequestsViewModels
                 return;
             var routeTask = await RouteTask.CreateAsync(new Uri("https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World"));
             RouteParameters routeParams = await routeTask.CreateDefaultParametersAsync();
-            var routes = new List<MapPoint>(PickUpPoints.Where(x => x.IsChecked).Select(x => new MapPoint(x.Longitude, x.Latitude)));
+            var routes = new List<MapPoint>(PickUpPoints.Where(x => x.IsChecked).OrderByDescending(x => x.IsFirst).Select(x => new MapPoint(x.Longitude, x.Latitude)));
             var first = new Stop(routes.First());
             // Установка исходной и конечной точек
             var solve=SolveTravellingSalesmanProblem(routes).Select(x => new Stop(x)).ToList();

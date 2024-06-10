@@ -39,14 +39,21 @@ namespace DiplomIvanova
         private static async void InitDataBase()
         {
             var cancellationToken = new CancellationToken();
-            using (var db = new AppDbContext())
+            try
             {
-                if (db.Database.EnsureCreated())
+                using (var db = new AppDbContext())
                 {
-                    await AddCarsAsync(db,cancellationToken);
-                    await AddDriversAsync(db,cancellationToken);
-                    await AddPointsAsync(db,cancellationToken);
+                    if (db.Database.EnsureCreated())
+                    {
+                        await AddCarsAsync(db, cancellationToken);
+                        await AddDriversAsync(db, cancellationToken);
+                        await AddPointsAsync(db, cancellationToken);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+
             }
 
         }

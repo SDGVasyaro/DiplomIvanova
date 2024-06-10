@@ -23,11 +23,12 @@
 					<CollectionView ItemsSource="{Binding PickUpPoints}" HeightRequest="500">
 						<CollectionView.ItemTemplate>
 							<DataTemplate>
-								<Grid x:DataType="ext:PickUpPointEntityExtension" Margin="10">
+								<Grid x:DataType="ext:PickUpPointEntityExtension" RadioButtonGroup.GroupName="IsFirst" Margin="10">
 									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="0.1*" />
-										<ColumnDefinition Width="0.45*" />
-										<ColumnDefinition Width="0.45*" />
+										<ColumnDefinition Width="0.09*" />
+										<ColumnDefinition Width="0.420*" />
+										<ColumnDefinition Width="0.420*" />
+										<ColumnDefinition Width="0.06*" />
 									</Grid.ColumnDefinitions>
 									<CheckBox CheckedChanged="CheckBox_CheckedChanged" IsChecked="{Binding IsChecked}" />
 									<Frame Grid.Column="1" BorderColor="MediumPurple" Margin="10">
@@ -36,7 +37,7 @@
 									<Frame Grid.Column="2" BorderColor="MediumPurple" Margin="10">
 										<Label Text="{Binding Adress}" />
 									</Frame>
-
+									<RadioButton Grid.Column="3" IsChecked="{Binding IsFirst, Mode=TwoWay}"/>
 								</Grid>
 							</DataTemplate>
 						</CollectionView.ItemTemplate>

@@ -12,7 +12,7 @@ namespace DiplomIvanova.Helpers
             var dbSet = GetDbSet<T>(db, typeof(T).Name);
             if (dbSet is not null)
             {
-                return await dbSet.ToListAsync();
+                return await dbSet.OrderBy(x=>x.Name).ToListAsync();
             }
             return [];
         }

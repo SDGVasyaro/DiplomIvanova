@@ -110,9 +110,9 @@ public partial class AdditionPage : ContentPage
         {
             IntermediatePoints = await db.PickUpPoints.Where(x => route.IntermediatePointsId.Contains(x.Id)).ToListAsync(default);
         }
-        IntermediatePoints.Add(route.DeparturePoint);
+        IntermediatePoints.Insert(0,route.DeparturePoint);
         IntermediatePoints.Add(route.ArrivalPoint);
-        var mapPoints = IntermediatePoints.Select(x=>new MapPoint(x.Longitude, x.Latitude)).ToList();
+        var mapPoints = IntermediatePoints.OrderByDescending(x=>true).Select(x=>new MapPoint(x.Longitude, x.Latitude)).ToList();
         var first = new Stop(IntermediatePoints.Select(x => new MapPoint(x.Longitude, x.Latitude)).First());
         // Установка исходной и конечной точек
         var solve = SolveTravellingSalesmanProblem(mapPoints).Select(x => new Stop(x)).ToList();

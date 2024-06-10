@@ -14,7 +14,6 @@
 							<!--<TapGestureRecognizer Command="{Binding ItemTappedCommand}" />-->
 						</VerticalStackLayout.GestureRecognizers>
 						<Label Text="{Binding Id}" Style="{StaticResource SubHeadline}" />
-						<Label Text="{Binding Client.Name}" Style="{StaticResource Headline}" />
                     </VerticalStackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

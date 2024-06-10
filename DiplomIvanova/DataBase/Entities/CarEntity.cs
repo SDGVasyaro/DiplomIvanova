@@ -2,7 +2,6 @@
 {
     public class CarEntity:EntityBase
     {
-        public string Name { get; set; } = "";
         public string? Number { get; set; }
         public DateTime? DateOfCommissioning { get; set; }
         public int? Mileage { get; set; }
