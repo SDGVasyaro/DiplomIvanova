@@ -65,6 +65,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="8.0.1" />
 		<PackageReference Include="CommunityToolkit.Maui.Maps" Version="2.0.2" />
 		<PackageReference Include="Esri.ArcGISRuntime.Maui" Version="200.4.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
@@ -94,6 +95,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Pages\ItemsViewPages\ItemsViewPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Pages\RouteListPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Pages\RoutePage.xaml">

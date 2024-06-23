@@ -17,7 +17,7 @@
 		<HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="10">
 			<Button Text="Сформировать рейс" Command="{Binding AddRouteCommand}" HorizontalOptions="CenterAndExpand"/>
 			<Button Grid.Row="1" Text="База данных" Command="{Binding GoToAddCommand}" HorizontalOptions="CenterAndExpand" CommandParameter="TripRequestEntity" />
-			<Button Grid.Row="2" Text="Составить маршрутный лист" Command="{Binding GoToCommand}" HorizontalOptions="CenterAndExpand" CommandParameter="TripEntity" />
+			<Button Grid.Row="2" Text="Составить маршрутный лист" Command="{Binding GoToListCommand}" HorizontalOptions="CenterAndExpand" CommandParameter="TripEntity" />
 		</HorizontalStackLayout>
 		<esri:MapView Grid.Row="1" Map="{Binding Map}" GraphicsOverlays="{Binding GraphicsOverlays}" MinimumWidthRequest="100" MinimumHeightRequest="100" x:Name="routeMap" />
 	</Grid>

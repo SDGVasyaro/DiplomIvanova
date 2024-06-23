@@ -17,6 +17,7 @@ namespace DiplomIvanova
             Routing.RegisterRoute(nameof(ItemsViewPage), typeof(ItemsViewPage));
             Routing.RegisterRoute(nameof(AdditionPage), typeof(AdditionPage));
             Routing.RegisterRoute(nameof(RoutePage), typeof(RoutePage));
+            Routing.RegisterRoute(nameof(RouteListPage), typeof(RouteListPage));
         }
     }
 }

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:ext="clr-namespace:DiplomIvanova.ViewModels.TripRequestsViewModels"
+             x:Class="DiplomIvanova.Views.Pages.RouteListPage"
+             Title="Добавить маршрутный лист">
+	<VerticalStackLayout Margin="15">
+		<HorizontalStackLayout HeightRequest="100" HorizontalOptions="Center" Margin="20,0" Spacing="10">
+			<Button Text="Сохранить" HeightRequest="80" WidthRequest="150" Clicked="Button_Clicked"/>
+			<Button Text="Отправить"  HeightRequest="80" WidthRequest="150" Clicked="Button_Clicked_1"/>
+			<Button Text="Печать"  HeightRequest="80" WidthRequest="150"/>
+		</HorizontalStackLayout>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="0.3*"/>
+				<ColumnDefinition Width="0.7*"/>
+			</Grid.ColumnDefinitions>
+			<VerticalStackLayout>
+				<Label Text="Выберите пункты" FontSize="25" HorizontalOptions="Center"/>
+				<BoxView HeightRequest="1" BackgroundColor="Gray" WidthRequest="400"/>
+				<CollectionView ItemsSource="{Binding PickUpPoints}" HeightRequest="500">
+					<CollectionView.ItemTemplate>
+						<DataTemplate>
+							<Grid x:DataType="ext:PickUpPointEntityExtension" Margin="10">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="0.09*" />
+									<ColumnDefinition Width="0.420*" />
+									<ColumnDefinition Width="0.420*" />
+									<ColumnDefinition Width="0.06*" />
+								</Grid.ColumnDefinitions>
+								<CheckBox CheckedChanged="CheckBox_CheckedChanged" IsChecked="{Binding IsChecked}" />
+								<Frame Grid.Column="1" BorderColor="MediumPurple" Margin="10">
+									<Label Text="{Binding Name}" />
+								</Frame>
+								<Frame Grid.Column="2" BorderColor="MediumPurple" Margin="10">
+									<Label Text="{Binding Adress}" />
+								</Frame>
+							</Grid>
+						</DataTemplate>
+					</CollectionView.ItemTemplate>
+				</CollectionView>
+			</VerticalStackLayout>
+
+
+			<VerticalStackLayout Grid.Column="1" BackgroundColor="White" x:Name="contentStack" Padding="10">
+				<HorizontalStackLayout HorizontalOptions="CenterAndExpand" Margin="20">
+					<Label Text="Маршрутный лист №" FontSize="25"/>
+					<Entry  FontSize="25"/>
+					<Label Text="от" FontSize="25"/>
+					<DatePicker FontSize="25"/>
+				</HorizontalStackLayout>
+				<Grid ColumnSpacing="5">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="0.2*"/>
+						<ColumnDefinition Width="0.1*"/>
+						<ColumnDefinition Width="0.3*"/>
+						<ColumnDefinition Width="0.1*"/>
+						<ColumnDefinition Width="0.3*"/>
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="50"/>
+						<RowDefinition Height="50"/>
+					</Grid.RowDefinitions>
+					<Label Text="Организация:" VerticalOptions="Center"/>
+					<Entry Grid.Row="1" HeightRequest="20"/>
+
+					<Label Grid.Column="1" Text="ФИО: " VerticalOptions="Center"/>
+					<Picker Grid.Column="2" x:Name="PickerFIO" ItemsSource="{Binding Drivers}" ItemDisplayBinding="{Binding Name}"/>
+
+					<Label Grid.Column="3" VerticalOptions="Center" Text="Транспорт: " />
+					<Picker Grid.Column="4" x:Name="PickerVehicle" ItemsSource="{Binding Cars}" ItemDisplayBinding="{Binding Name}"/>
+
+					<Label Grid.Column="1" Grid.Row="1" Text="Должность: " />
+					<Label Grid.Column="2" Grid.Row="1" Text="Водитель" />
+
+					<Label Grid.Column="3" Grid.Row="1" Text="Цель поездки: " />
+					<Label Grid.Column="4" Grid.Row="1" Text="Доставка" />
+				</Grid>
+				<Grid ColumnSpacing="0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="0.2*" />
+						<ColumnDefinition Width="0.4*" />
+						<ColumnDefinition Width="0.15*" />
+						<ColumnDefinition Width="0.25*" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="50"/>
+					</Grid.RowDefinitions>
+					<Frame BorderColor="MediumPurple" CornerRadius="0" Padding="0">
+						<Label Text="Пункт назначения" VerticalOptions="Center" HorizontalOptions="Center"/>
+					</Frame>
+
+					<Frame  Grid.Column="1" BorderColor="MediumPurple" CornerRadius="0" Padding="0">
+						<Label Text="Адрес, место прибытия" VerticalOptions="Center" HorizontalOptions="Center"/>
+					</Frame>
+					<Frame Grid.Column="2" BorderColor="MediumPurple"  CornerRadius="0" Padding="0">
+						<Label  Text="Время прибытия" VerticalOptions="Center" HorizontalOptions="Center"/>
+					</Frame>
+					<Frame Grid.Column="3" BorderColor="MediumPurple"  CornerRadius="0" Padding="0">
+						<Label  Text="Подпись принимающей стороны" VerticalOptions="Center" HorizontalOptions="Center"/>
+					</Frame>
+				</Grid>
+				<CollectionView ItemsSource="{Binding ChoosedPoints}" HeightRequest="450">
+					<CollectionView.ItemTemplate>
+						<DataTemplate>
+							<Grid x:DataType="ext:PickUpPointEntityExtension">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="0.2*" />
+									<ColumnDefinition Width="0.4*" />
+									<ColumnDefinition Width="0.15*" />
+									<ColumnDefinition Width="0.25*" />
+								</Grid.ColumnDefinitions>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="50"/>
+								</Grid.RowDefinitions>
+								<Frame BorderColor="MediumPurple" CornerRadius="0" Padding="0">
+									<Label Text="{Binding Name}" VerticalOptions="Center" HorizontalOptions="Center"/>
+								</Frame>
+								<Frame  Grid.Column="1" BorderColor="MediumPurple" CornerRadius="0" Padding="0">
+									<Label Text="{Binding Adress}" VerticalOptions="Center" HorizontalOptions="Center"/>
+								</Frame>
+								<Frame  Grid.Column="2" BorderColor="MediumPurple" CornerRadius="0" Padding="0">
+									<Label VerticalOptions="Center" HorizontalOptions="Center"/>
+								</Frame>
+								<Frame  Grid.Column="3" BorderColor="MediumPurple" CornerRadius="0" Padding="0">
+									<Label Text="Подпись" TextColor="LightGray" VerticalOptions="Center" HorizontalOptions="Center"/>
+								</Frame>
+							</Grid>
+						</DataTemplate>
+					</CollectionView.ItemTemplate>
+				</CollectionView>
+				<Grid ColumnSpacing="10" VerticalOptions="EndAndExpand">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="0.2*" />
+						<ColumnDefinition Width="0.6*" />
+						<ColumnDefinition Width="0.2*" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="50"/>
+						<RowDefinition Height="50"/>
+					</Grid.RowDefinitions>
+					<Label Text="Маршрутный лист сдал" VerticalOptions="Center"/>
+					<VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+						<Label  HorizontalOptions="Start" Text="ФИО" />
+						<BoxView HeightRequest="1" BackgroundColor="Gray"/>
+					</VerticalStackLayout>
+					<VerticalStackLayout Grid.Column="2" VerticalOptions="Center">
+						<Label  HorizontalOptions="Start" Text="Подпись" />
+						<BoxView HeightRequest="1" BackgroundColor="Gray"/>
+					</VerticalStackLayout>
+
+					<Label Grid.Row="1" VerticalOptions="Center" Text="Маршрутный лист принял"/>
+					<VerticalStackLayout Grid.Row="1" Grid.Column="1" VerticalOptions="Center">
+						<Label  HorizontalOptions="Start" Text="ФИО" />
+						<BoxView HeightRequest="1" BackgroundColor="Gray"/>
+					</VerticalStackLayout>
+					<VerticalStackLayout Grid.Row="1" Grid.Column="2" VerticalOptions="Center">
+						<Label  HorizontalOptions="Start" Text="Подпись" />
+						<BoxView HeightRequest="1" BackgroundColor="Gray"/>
+					</VerticalStackLayout>
+				</Grid>
+			</VerticalStackLayout>
+		</Grid>
+	</VerticalStackLayout>
+</ContentPage>

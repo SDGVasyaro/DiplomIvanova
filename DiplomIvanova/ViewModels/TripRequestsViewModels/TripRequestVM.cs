@@ -113,7 +113,7 @@ namespace DiplomIvanova.ViewModels.TripRequestsViewModels
                 return;
             var routeTask = await RouteTask.CreateAsync(new Uri("https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World"));
             RouteParameters routeParams = await routeTask.CreateDefaultParametersAsync();
-            var routes = new List<MapPoint>(PickUpPoints.Where(x => x.IsChecked).OrderByDescending(x => x.IsFirst).Select(x => new MapPoint(x.Longitude, x.Latitude)));
+            var routes = new List<MapPoint>(PickUpPoints.Where(x => x.IsChecked).Select(x => new MapPoint(x.Longitude, x.Latitude)));
             var first = new Stop(routes.First());
             // Установка исходной и конечной точек
             var solve=SolveTravellingSalesmanProblem(routes).Select(x => new Stop(x)).ToList();
